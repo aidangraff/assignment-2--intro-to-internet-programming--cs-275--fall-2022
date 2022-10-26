@@ -1,5 +1,5 @@
 {
-  "name": "assignment-1--intro-to-internet-programming--cs-275--fall-2022",
+  "name": "assignment-2--intro-to-internet-programming--cs-275--fall-2022",
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/code-warrior/assignment-1--intro-to-internet-programming--cs-275--fall-2022.git"
+    "url": "git+https://github.com/code-warrior/assignment-2--intro-to-internet-programming--cs-275--fall-2022.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/code-warrior/assignment-1--intro-to-internet-programming--cs-275--fall-2022/issues"
+    "url": "https://github.com/code-warrior/assignment-2--intro-to-internet-programming--cs-275--fall-2022/issues"
   },
-  "homepage": "https://github.com/code-warrior/assignment-1--intro-to-internet-programming--cs-275--fall-2022#readme",
+  "homepage": "https://github.com/code-warrior/assignment-2--intro-to-internet-programming--cs-275--fall-2022#readme",
   "dependencies": {
     "eslint": "^8.12.0",
     "@babel/preset-env": "7.19.3",
@@ -24,11 +24,13 @@
   },
   "devDependencies": {
     "gulp": "^4.0.2",
+    "gulp-html": "5.0.0",
     "gulp-htmlmin": "5.0.1",
     "browser-sync": "2.27.10",
     "gulp-uglify": "3.0.2",
     "gulp-clean-css": "4.3.0",
     "gulp-eslint": "6.0.0",
+    "gulp-stylelint": "13.0.0",
     "gulp-babel": "8.0.0"
   }
 }

@@ -1,6 +1,8 @@
 const { src, dest, series, watch } = require(`gulp`),
     htmlCompressor = require(`gulp-htmlmin`),
+    htmlValidator = require(`gulp-html`),
     cssCompressor = require(`gulp-clean-css`),
+    cssValidator = require(`gulp-stylelint`),
     jsValidator = require(`gulp-eslint`),
     babel = require(`gulp-babel`),
     jsCompressor = require(`gulp-uglify`),
@@ -9,36 +11,53 @@ const { src, dest, series, watch } = require(`gulp`),
 
 
 let compressHTML = () => {
-    return src(`dev/html/index.html`)
+    return src(`index.html`)
         .pipe(htmlCompressor({collapseWhitespace: true}))
         .pipe(dest(`prod`));
 };
 
 let compressCSS = () => {
-    return src(`dev/css/style.css`)
+    return src(`css/style.css`)
         .pipe(cssCompressor({collapseWhitespace: true}))
         .pipe(dest(`prod`));
 };
 
 let compressJS = () => {
-    return src(`dev/js/app.js`)
+    return src(`js/app.js`)
         .pipe(babel())
         .pipe(jsCompressor())
         .pipe(dest(`prod`));
 };
 
+let validateCSS = () => {
+    return src(`css/style.css`)
+        .pipe(cssValidator({
+            failAfterError: true,
+            reporters: [
+                {formatter: `verbose`, console: true}
+            ]
+        }));
+};
+
+let validateHTML = () => {
+    return src(`index.html`)
+        .pipe(htmlValidator());
+};
+
 let validateJS = () => {
-    
+    return src(`scripts/*.js`)
+        .pipe(jsValidator())
+        .pipe(jsValidator.formatEach(`compact`, process.stderr));
 };
 
 let transpileJSForDev = () => {
-    return src(`dev/js/app.js`)
+    return src(`js/app.js`)
         .pipe(babel())
         .pipe(dest(`temp/scripts`));
 };
 
 let transpileJSForProd = () => {
-    return src(`dev/js/app.js`)
+    return src(`js/app.js`)
         .pipe(babel())
         .pipe(jsCompressor())
         .pipe(dest(`prod/scripts`));
@@ -50,21 +69,22 @@ let serve = () => {
         reloadDelay: 50,
         server: {
             baseDir: [
-                `dev`,
-                `dev/html`
+                `./`
             ]
         }
     });
 
-    watch(`dev/html/*.html`).on(`change`, reload);
-    watch(`dev/css/*.css`).on(`change`, reload);
-    watch(`dev/js/*.js`, series(validateJS, transpileJSForDev)).on(`change`, reload);
+    watch(`index.html`, validateHTML).on(`change`, reload);
+    watch(`css/style.css`, validateCSS).on(`change`, reload);
+    watch(`js/app.js`, series(validateJS)).on(`change`, reload);
 
 };
 
 
 
 exports.validateJS = validateJS;
+exports.validateHTML = validateHTML;
+exports.validateCSS = validateCSS;
 exports.transpileJSForDev = transpileJSForDev;
 exports.compressHTML = compressHTML;
 exports.compressCSS = compressCSS;
@@ -72,7 +92,6 @@ exports.compressJS = compressJS;
 exports.transpileJSForProd = transpileJSForProd;
 exports.serve = serve;
 exports.build = series(
-    compressJS,
     transpileJSForProd,
     compressHTML,
     compressCSS,
