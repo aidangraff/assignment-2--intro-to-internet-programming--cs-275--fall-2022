@@ -19,14 +19,14 @@ let compressHTML = () => {
 let compressCSS = () => {
     return src(`css/style.css`)
         .pipe(cssCompressor({collapseWhitespace: true}))
-        .pipe(dest(`prod`));
+        .pipe(dest(`prod/css`));
 };
 
 let compressJS = () => {
     return src(`js/app.js`)
         .pipe(babel())
         .pipe(jsCompressor())
-        .pipe(dest(`prod`));
+        .pipe(dest(`prod/js`));
 };
 
 let validateCSS = () => {
@@ -45,9 +45,8 @@ let validateHTML = () => {
 };
 
 let validateJS = () => {
-    return src(`scripts/*.js`)
-        .pipe(jsValidator())
-        .pipe(jsValidator.formatEach(`compact`, process.stderr));
+    return src([`js/app.js`,`gulpfile.js`])
+        .pipe(jsValidator());
 };
 
 let transpileJSForDev = () => {
@@ -60,7 +59,7 @@ let transpileJSForProd = () => {
     return src(`js/app.js`)
         .pipe(babel())
         .pipe(jsCompressor())
-        .pipe(dest(`prod/scripts`));
+        .pipe(dest(`prod/js`));
 };
 
 let serve = () => {
@@ -90,7 +89,12 @@ exports.compressHTML = compressHTML;
 exports.compressCSS = compressCSS;
 exports.compressJS = compressJS;
 exports.transpileJSForProd = transpileJSForProd;
-exports.serve = serve;
+exports.serve = serve(
+    validateHTML,
+    validateCSS,
+    validateJS,
+    transpileJSForDev
+);
 exports.build = series(
     transpileJSForProd,
     compressHTML,
