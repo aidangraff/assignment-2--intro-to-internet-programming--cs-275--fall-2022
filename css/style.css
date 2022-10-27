@@ -1,0 +1,58 @@
+main {
+    font-size: 16px;
+    line-height: 18px;
+    text-align: center;
+    display: flex;
+}
+
+header {
+    font-size: 32px;
+    line-height: 38.4px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 16px;
+}
+
+.imgSlide {
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.firstCover {
+    position: absolute;
+    background-color: white;
+    height: 500px;
+    width:550px;
+    right: 0px;
+}
+
+.secondCover {
+    position: absolute;
+    background-color: white;
+    height: 500px;
+    width:500px;
+    left: 0px; 
+}
+
+.leftArrow {
+    position: absolute;
+    background-color: white;
+    height: 100px;
+    width:100px;
+    left: 200px;
+    top: 175px;
+}
+
+.rightArrow {
+    position: absolute;
+    background-color: white;
+    height: 100px;
+    width:100px;
+    right: 200px;
+    top: 175px;
+}
+
